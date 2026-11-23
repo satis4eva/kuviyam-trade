@@ -76,8 +76,10 @@ function product(ctx, d) {
           <label class="f">${t('quantity')}<input class="qty" type="number" name="qty" min="${p.moq}" max="${p.stock}" value="${p.moq}"></label>
           <button class="btn buy full">${t('addToCart')}</button><span class="tiny muted">${t('inStock', { n: p.stock })}${p.moq > 1 ? ' · ' + t('moqN', { n: p.moq, u: p.unit }) : ''}</span></form>` : h`<p class="small muted">${t('outOfStockP')}</p>`)
         : p.mode === 'fixed' ? h`<p class="small muted">${t('noDeliveryHere')}</p>` : ''}
+      ${p.buyable ? h`<div class="or"><span>${t('or')}</span></div>
+        <details class="qd"${d.errors ? raw(' open') : ''}><summary class="btn outline full">${t('bulkQuoteBtn')}</summary>${quoteForm}</details>
+        <p class="tiny muted qhelp">${t('bulkQuoteHelp')}${p.moq > 1 ? '' : ' ' + t('bulkCheaper')}</p>` : quoteForm}
       ${dutyBox(ctx, d.dutyKey)}
-      ${p.buyable ? h`<details><summary class="small">${t('needMoreQuote')}</summary>${quoteForm}</details>` : quoteForm}
     </aside></div>
   ${d.more.length ? h`<section><h2 class="mb">${t('moreFrom', { s: L(s, 'name', lang) })}</h2><div class="grid g5">${d.more.map((x) => productCard(ctx, x))}</div></section>` : ''}`;
 }
