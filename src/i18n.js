@@ -1,0 +1,146 @@
+'use strict';
+/* English and Tamil text for the whole site. Each key: [English, Tamil]. Placeholders look like {n}. */
+const T = {
+  brand: ['Kuviyam Trade', 'குவியம் வணிகம்'], tagline: ['Sri Lankan goods, delivered', 'இலங்கைப் பொருட்கள், உங்கள் வாசலுக்கு'],
+  metaDescription: ['Buy tea, spices, coconut goods, crafts and more direct from verified Sri Lankan producers, delivered to the UK with duty and VAT included.', 'சரிபார்க்கப்பட்ட இலங்கை உற்பத்தியாளர்களிடமிருந்து நேரடியாகத் தேயிலை, வாசனைப் பொருட்கள், தேங்காய்ப் பொருட்கள், கைவினைப் பொருட்களை வாங்குங்கள்; வரியும் VAT உம் உள்ளடங்கலாக ஐக்கிய இராச்சியத்துக்கு விநியோகம்.'],
+  demoBanner: ['Staging site with sample data. Payments are in test mode: no money is taken.', 'மாதிரித் தரவுகளுடன் கூடிய சோதனைத் தளம். கொடுப்பனவுகள் சோதனை நிலையில்: பணம் எடுக்கப்படாது.'],
+  footer: ['Kuviyam Trade · Powered by dbsgroup.io · Shipping, duty and VAT figures are estimates on this staging site.', 'குவியம் வணிகம் · Powered by dbsgroup.io · இச்சோதனைத் தளத்தில் கப்பல், வரி, VAT தொகைகள் மதிப்பீடுகள் மட்டுமே.'],
+  nav_home: ['Home', 'முகப்பு'], nav_products: ['Products', 'பொருட்கள்'], nav_suppliers: ['Suppliers', 'விநியோகஸ்தர்கள்'], nav_orders: ['My orders', 'எனது கட்டளைகள்'],
+  nav_sell: ['Sell on Kuviyam', 'குவியத்தில் விற்க'], nav_dashboard: ['Seller dashboard', 'விற்பனையாளர் பலகை'], nav_admin: ['Admin', 'நிர்வாகம்'],
+  login: ['Log in', 'உள்நுழை'], logout: ['Log out', 'வெளியேறு'], register: ['Create account', 'கணக்கை உருவாக்கு'],
+  all: ['All', 'அனைத்தும்'], search: ['Search', 'தேடு'], searchLbl: ['Search', 'தேடல்'], searchPh: ['Search: Ceylon tea, cinnamon, batik…', 'தேடுக: இலங்கைத் தேயிலை, கறுவா, பத்திக்…'],
+  cart: ['Cart', 'கூடை'],
+  heroChip: ['Direct from verified Sri Lankan producers', 'சரிபார்க்கப்பட்ட இலங்கை உற்பத்தியாளர்களிடமிருந்து நேரடியாக'],
+  heroH: ['Sri Lanka’s best, delivered to your door.', 'இலங்கையின் சிறந்தவை, உங்கள் வாசலுக்கு.'],
+  heroP: ['Tea, spices, coconut goods, crafts and more from checked suppliers. The price you see includes shipping, UK duty and VAT, so nothing extra on delivery.', 'சரிபார்க்கப்பட்ட விநியோகஸ்தர்களிடமிருந்து தேயிலை, வாசனைப் பொருட்கள், தேங்காய்ப் பொருட்கள், கைவினைப் பொருட்கள். காட்டப்படும் விலையில் கப்பல் செலவு, UK வரி, VAT அடங்கும்; விநியோகத்தின்போது மேலதிகக் கட்டணம் இல்லை.'],
+  browse: ['Browse products', 'பொருட்களைப் பார்க்க'], sellCta: ['Sell your products', 'உங்கள் பொருட்களை விற்க'],
+  stSuppliers: ['verified suppliers', 'சரிபார்க்கப்பட்ட விநியோகஸ்தர்கள்'], stProducts: ['products', 'பொருட்கள்'], stShipsTo: ['UK', 'ஐ.இரா.'], stShipsToP: ['delivery, duty paid', 'விநியோகம், வரி செலுத்தப்பட்டது'],
+  categories: ['Shop by category', 'வகைப்படி வாங்குக'], bestSellers: ['Best sellers', 'அதிகம் விற்பனையானவை'], seeAll: ['See all →', 'அனைத்தையும் பார்க்க →'], verifiedSuppliers: ['Verified suppliers', 'சரிபார்க்கப்பட்ட விநியோகஸ்தர்கள்'],
+  since: ['since {y}', '{y} முதல்'], nProducts: ['{n} products', '{n} பொருட்கள்'], verified: ['Verified', 'சரிபார்க்கப்பட்டது'], verifiedSupplier: ['Verified supplier', 'சரிபார்க்கப்பட்ட விநியோகஸ்தர்'],
+  filters: ['Filters', 'வடிகட்டிகள்'], category: ['Category', 'வகை'], allCategories: ['All categories', 'அனைத்து வகைகளும்'], supplier: ['Supplier', 'விநியோகஸ்தர்'], allSuppliers: ['All suppliers', 'அனைத்து விநியோகஸ்தர்களும்'],
+  maxPrice: ['Max price (£)', 'அதிகபட்ச விலை (£)'], sort: ['Sort by', 'வரிசைப்படுத்து'], sortPopular: ['Most popular', 'மிகப் பிரபலமானவை'], sortLow: ['Price: low to high', 'விலை: குறைவிலிருந்து'], sortHigh: ['Price: high to low', 'விலை: அதிகத்திலிருந்து'], sortNew: ['Newest', 'புதியவை'],
+  inStockOnly: ['In stock only', 'கையிருப்பில் உள்ளவை மட்டும்'], apply: ['Apply', 'பயன்படுத்து'], clearFilters: ['Clear filters', 'வடிகட்டிகளை நீக்கு'],
+  resultsFor: ['Results for “{q}”', '“{q}” க்கான முடிவுகள்'], allProducts: ['All products', 'அனைத்துப் பொருட்களும்'], nResults: ['{n} products', '{n} பொருட்கள்'], suppliersMatching: ['Suppliers:', 'விநியோகஸ்தர்கள்:'],
+  noMatch: ['Nothing matches. Try another word or clear the filters.', 'பொருத்தம் இல்லை. வேறு சொல்லை முயலுங்கள் அல்லது வடிகட்டிகளை நீக்குங்கள்.'],
+  soldN: ['{n} sold', '{n} விற்பனை'], inStock: ['{n} in stock', '{n} கையிருப்பில்'], outOfStock: ['Out of stock', 'கையிருப்பில் இல்லை'], outOfStockP: ['This product is out of stock right now.', 'இப்பொருள் தற்போது கையிருப்பில் இல்லை.'],
+  origin: ['Origin', 'தோற்றம்'], hsCode: ['HS code', 'HS குறியீடு'], weight: ['Weight', 'எடை'], leadTime: ['Dispatch within', 'அனுப்பும் காலம்'], days: ['{n} days', '{n} நாட்கள்'],
+  certificate: ['Certificate', 'சான்றிதழ்'], viewCert: ['View certificate', 'சான்றிதழைப் பார்க்க'], quantity: ['Quantity', 'அளவு'], update: ['Update', 'புதுப்பி'],
+  goods: ['Goods', 'பொருட்கள்'], shippingUK: ['Shipping to UK', 'UK க்கான கப்பல் செலவு'], shipping: ['Shipping', 'கப்பல் செலவு'], shippingN: ['Shipping ({n} parcel(s))', 'கப்பல் செலவு ({n} பொதி(கள்))'],
+  duty: ['UK import duty (est.)', 'UK இறக்குமதி வரி (மதிப்பீடு)'], vat: ['UK VAT 20%', 'UK VAT 20%'], dutyShort: ['Duty', 'வரி'], vatShort: ['VAT', 'VAT'],
+  deliveredCost: ['Delivered cost', 'விநியோகத்துடன் மொத்தம்'], total: ['Total', 'மொத்தம்'],
+  ddpNote: ['Duty and VAT are paid up front, so there is nothing to pay the courier. Rates on this staging site are estimates.', 'வரியும் VAT உம் முன்கூட்டியே செலுத்தப்படுவதால் கூரியருக்கு எதுவும் செலுத்த வேண்டியதில்லை. இச்சோதனைத் தளத்தின் வீதங்கள் மதிப்பீடுகள்.'],
+  addToCart: ['Add to cart', 'கூடையில் சேர்'], addedToCart: ['Added to your cart.', 'உங்கள் கூடையில் சேர்க்கப்பட்டது.'], moreFrom: ['More from {s}', '{s} இடமிருந்து மேலும்'],
+  suppliersH: ['Suppliers', 'விநியோகஸ்தர்கள்'], suppliersP: ['Producers, exporters and artisans across Sri Lanka. Each one has shown business registration, ID and bank details before selling.', 'இலங்கை முழுவதுமுள்ள உற்பத்தியாளர்கள், ஏற்றுமதியாளர்கள், கைவினைஞர்கள். ஒவ்வொருவரும் விற்பதற்கு முன் வணிகப் பதிவு, அடையாளம், வங்கி விபரங்களைச் சமர்ப்பித்துள்ளனர்.'],
+  searchSuppliersPh: ['Name, district or what they make…', 'பெயர், மாவட்டம் அல்லது தயாரிப்பவை…'], type: ['Business type', 'வணிக வகை'], allTypes: ['All types', 'அனைத்து வகைகளும்'],
+  productsN: ['Products ({n})', 'பொருட்கள் ({n})'], noProducts: ['No products listed yet.', 'இன்னும் பொருட்கள் பட்டியலிடப்படவில்லை.'],
+  cartEmpty: ['Your cart is empty', 'உங்கள் கூடை காலியாக உள்ளது'], cartEmptyP: ['Find something you like and add it here.', 'பிடித்ததைத் தேடி இங்கே சேருங்கள்.'],
+  parcelFrom: ['Ships as one parcel from {d}', '{d} இலிருந்து ஒரு பொதியாக அனுப்பப்படும்'], onlyLeft: ['Only {n} left', '{n} மட்டுமே உள்ளன'],
+  orderSummary: ['Order summary', 'கட்டளைச் சுருக்கம்'], shipsToUK: ['{n} parcel(s) to the UK', 'UK க்கு {n} பொதி(கள்)'], fixStock: ['Some items have less stock than you asked for. Lower the quantity to continue.', 'சில பொருட்கள் நீங்கள் கேட்டதைவிடக் குறைவாகக் கையிருப்பில் உள்ளன. தொடர அளவைக் குறையுங்கள்.'],
+  checkout: ['Checkout', 'கொள்வனவை முடி'], deliveryUK: ['Delivery address (UK only for now)', 'விநியோக முகவரி (தற்போது UK மட்டும்)'], fullName: ['Full name', 'முழுப் பெயர்'], email: ['Email', 'மின்னஞ்சல்'],
+  address1: ['Address line 1', 'முகவரி வரி 1'], address2: ['Address line 2', 'முகவரி வரி 2'], city: ['Town or city', 'நகரம்'], postcode: ['Postcode', 'அஞ்சல் குறியீடு'], phone: ['Phone', 'தொலைபேசி'],
+  continueToPay: ['Continue to payment', 'கொடுப்பனவுக்குத் தொடர்க'], payment: ['Payment', 'கொடுப்பனவு'], orderRef: ['Order', 'கட்டளை'],
+  testModeNote: ['Test mode: no card is charged. The live gateway (DPayments) is connected once the merchant account is ready.', 'சோதனை நிலை: அட்டையிலிருந்து பணம் எடுக்கப்படாது. வணிகக் கணக்கு தயாரானதும் நேரடிக் கொடுப்பனவு வாயில் (DPayments) இணைக்கப்படும்.'],
+  card: ['Card number', 'அட்டை இலக்கம்'], payN: ['Pay {a}', '{a} செலுத்து'], payFailed: ['The payment did not go through. Please try again.', 'கொடுப்பனவு நிறைவேறவில்லை. மீண்டும் முயலுங்கள்.'],
+  orderN: ['Order {r}', 'கட்டளை {r}'], paid: ['Paid', 'செலுத்தப்பட்டது'], payNow: ['Pay now', 'இப்போது செலுத்து'],
+  thanksOrder: ['Thank you. Your order is paid and goes out in {n} parcel(s); each supplier adds tracking when it ships.', 'நன்றி. உங்கள் கட்டளைக்குப் பணம் செலுத்தப்பட்டது; {n} பொதி(களாக) அனுப்பப்படும். ஒவ்வொரு விநியோகஸ்தரும் அனுப்பும்போது கண்காணிப்பு இலக்கத்தைச் சேர்ப்பார்.'],
+  tracking: ['Tracking', 'கண்காணிப்பு'], trackingSoon: ['Tracking appears here once shipped.', 'அனுப்பியதும் கண்காணிப்பு இலக்கம் இங்கே தோன்றும்.'],
+  myOrders: ['My orders', 'எனது கட்டளைகள்'], date: ['Date', 'திகதி'], status: ['Status', 'நிலை'], view: ['View', 'பார்க்க'], noOrders: ['No orders yet.', 'இன்னும் கட்டளைகள் இல்லை.'],
+  os_pending: ['Awaiting payment', 'கொடுப்பனவுக்காகக் காத்திருக்கிறது'], os_paid: ['Paid', 'செலுத்தப்பட்டது'],
+  sh_pending: ['Awaiting payment', 'கொடுப்பனவுக்காக'], sh_paid: ['Paid', 'செலுத்தப்பட்டது'], sh_packed: ['Packed', 'பொதியிடப்பட்டது'], sh_shipped: ['Shipped', 'அனுப்பப்பட்டது'], sh_delivered: ['Delivered', 'விநியோகிக்கப்பட்டது'],
+  password: ['Password', 'கடவுச்சொல்'], pwHint: ['At least 10 characters.', 'குறைந்தது 10 எழுத்துகள்.'], noAccount: ['New here?', 'புதியவரா?'], haveAccount: ['Already have an account?', 'ஏற்கனவே கணக்கு உள்ளதா?'],
+  demoLogin: ['Demo supplier login:', 'மாதிரி விநியோகஸ்தர் உள்நுழைவு:'], welcome: ['Welcome, {n}.', 'வரவேற்கிறோம், {n}.'],
+  setupH: ['Create the first admin', 'முதல் நிர்வாகியை உருவாக்கு'], setupP: ['This page works once, with the setup code from the server settings. It closes after the first admin exists.', 'சேவையக அமைப்பிலுள்ள அமைப்புக் குறியீட்டுடன் இப்பக்கம் ஒருமுறை மட்டுமே வேலை செய்யும். முதல் நிர்வாகி உருவானதும் மூடப்படும்.'],
+  setupCode: ['Setup code', 'அமைப்புக் குறியீடு'], setupBtn: ['Create admin', 'நிர்வாகியை உருவாக்கு'], adminCreated: ['Admin account created.', 'நிர்வாகக் கணக்கு உருவாக்கப்பட்டது.'],
+  sellH: ['Sell on Kuviyam Trade', 'குவியம் வணிகத்தில் விற்பனை செய்யுங்கள்'], sellP: ['Sri Lankan producers, exporters and artisans can sell straight to buyers in the UK. We check every supplier before their products go live.', 'இலங்கை உற்பத்தியாளர்கள், ஏற்றுமதியாளர்கள், கைவினைஞர்கள் UK வாங்குநர்களுக்கு நேரடியாக விற்கலாம். பொருட்கள் வெளியிடப்படுவதற்கு முன் ஒவ்வொரு விநியோகஸ்தரையும் சரிபார்க்கிறோம்.'],
+  sellNeedAccount: ['First create an account for the person who will manage your shop.', 'முதலில் உங்கள் கடையை நிர்வகிப்பவருக்கு ஒரு கணக்கை உருவாக்குங்கள்.'],
+  whySell: ['Why sell here', 'ஏன் இங்கு விற்க வேண்டும்'], w1: ['Reach buyers in the UK, priced in pounds', 'பவுண்டில் விலையிட்டு UK வாங்குநர்களை அடையுங்கள்'], w2: ['Duty and VAT are collected for you at checkout', 'வரியும் VAT உம் கொள்வனவின்போதே வசூலிக்கப்படுகின்றன'],
+  w3: ['List in Tamil and English', 'தமிழிலும் ஆங்கிலத்திலும் பட்டியலிடுங்கள்'], w4: ['Paid out in rupees once your parcel ships', 'பொதி அனுப்பப்பட்டதும் ரூபாயில் கொடுப்பனவு'],
+  commissionNote: ['We take {p}% commission on goods sold. No listing fees.', 'விற்கப்பட்ட பொருட்களுக்கு {p}% தரகுக் கட்டணம். பட்டியலிடக் கட்டணம் இல்லை.'],
+  bizNameEn: ['Business name (English)', 'வணிகப் பெயர் (ஆங்கிலம்)'], bizNameTa: ['Business name (Tamil)', 'வணிகப் பெயர் (தமிழ்)'], district: ['District', 'மாவட்டம்'], brNo: ['Business registration number', 'வணிகப் பதிவு இலக்கம்'],
+  contactName: ['Contact person', 'தொடர்பாளர்'], whatSell: ['What do you sell?', 'நீங்கள் எதை விற்கிறீர்கள்?'], aboutEn: ['About your business (English)', 'உங்கள் வணிகம் பற்றி (ஆங்கிலம்)'], aboutTa: ['About your business (Tamil)', 'உங்கள் வணிகம் பற்றி (தமிழ்)'],
+  documents: ['Documents', 'ஆவணங்கள்'], docNote: ['PDF, JPG, PNG or WebP, up to 5 MB each. Only Kuviyam reviewers see these.', 'PDF, JPG, PNG அல்லது WebP, ஒவ்வொன்றும் 5 MB வரை. குவியம் பரிசீலனையாளர்கள் மட்டுமே பார்ப்பர்.'],
+  docBr: ['Business registration certificate', 'வணிகப் பதிவுச் சான்றிதழ்'], docId: ['Owner’s NIC or passport', 'உரிமையாளரின் தேசிய அடையாள அட்டை / கடவுச்சீட்டு'], docBank: ['Bank statement or letter', 'வங்கிக் கூற்று / கடிதம்'], docEdb: ['EDB exporter registration (if any)', 'EDB ஏற்றுமதியாளர் பதிவு (இருப்பின்)'],
+  agreeSeller: ['I confirm these details are true and agree to the seller terms, including {p}% commission.', 'இவ்விபரங்கள் உண்மையானவை என உறுதிப்படுத்தி, {p}% தரகுக் கட்டணம் உட்பட விற்பனையாளர் நிபந்தனைகளை ஏற்கிறேன்.'],
+  submitApp: ['Send application', 'விண்ணப்பத்தை அனுப்பு'], appSent: ['Application sent. We will review your documents and email you.', 'விண்ணப்பம் அனுப்பப்பட்டது. உங்கள் ஆவணங்களைப் பரிசீலித்து மின்னஞ்சல் அனுப்புவோம்.'],
+  myApplications: ['My applications', 'எனது விண்ணப்பங்கள்'], submitted: ['Sent {d}', '{d} அனுப்பப்பட்டது'], reason: ['Reason', 'காரணம்'], openDashboard: ['Open seller dashboard', 'விற்பனையாளர் பலகையைத் திற'], newApp: ['Start another application', 'இன்னொரு விண்ணப்பம்'],
+  app_pending: ['Under review', 'பரிசீலனையில்'], app_approved: ['Approved', 'அங்கீகரிக்கப்பட்டது'], app_rejected: ['Not approved', 'அங்கீகரிக்கப்படவில்லை'],
+  /* seller dashboard */
+  dashH: ['Seller dashboard', 'விற்பனையாளர் பலகை'], viewStore: ['View my shop', 'எனது கடையைப் பார்க்க'],
+  tOverview: ['Overview', 'மேலோட்டம்'], tProducts: ['Products', 'பொருட்கள்'], tAddProduct: ['Add product', 'பொருளைச் சேர்'], tOrders: ['Orders', 'கட்டளைகள்'], tPayouts: ['Payouts', 'கொடுப்பனவுகள்'],
+  salesTotal: ['Sales', 'விற்பனை'], toShip: ['Parcels to ship', 'அனுப்ப வேண்டிய பொதிகள்'], liveProducts: ['Live products', 'வெளியிடப்பட்ட பொருட்கள்'], inReviewN: ['{n} in review', '{n} பரிசீலனையில்'],
+  payoutDue: ['Payout due', 'செலுத்த வேண்டிய தொகை'], afterCommission: ['after {p}% commission', '{p}% தரகுக்குப் பின்'],
+  toShipNote: ['{n} paid parcel(s) are waiting to be packed or shipped.', '{n} செலுத்தப்பட்ட பொதி(கள்) பொதியிட அல்லது அனுப்பக் காத்திருக்கின்றன.'], lowStock: ['Low stock', 'குறைந்த கையிருப்பு'],
+  product: ['Product', 'பொருள்'], price: ['Price', 'விலை'], stock: ['Stock', 'கையிருப்பு'], sold: ['Sold', 'விற்பனை'], edit: ['Edit', 'திருத்து'], reviewNote: ['Note from reviewer', 'பரிசீலனையாளர் குறிப்பு'],
+  noProductsYet: ['No products yet.', 'இன்னும் பொருட்கள் இல்லை.'], editProduct: ['Edit product', 'பொருளைத் திருத்து'],
+  editNote: ['Price, stock and timing update straight away. Changing the name, description, category, HS code, photo or certificate sends the product back for review.', 'விலை, கையிருப்பு, காலம் உடனே புதுப்பிக்கப்படும். பெயர், விபரம், வகை, HS குறியீடு, படம், சான்றிதழ் மாற்றினால் பொருள் மீண்டும் பரிசீலனைக்குச் செல்லும்.'],
+  reviewNoteNew: ['New products are checked by our team before they go live, usually within a working day.', 'புதிய பொருட்கள் வெளியிடப்படுவதற்கு முன் எமது குழுவால் சரிபார்க்கப்படும்; பொதுவாக ஒரு வேலை நாளுக்குள்.'],
+  nameEn: ['Name (English)', 'பெயர் (ஆங்கிலம்)'], nameTa: ['Name (Tamil)', 'பெயர் (தமிழ்)'], hsHelp: ['Customs code, e.g. 0902.40 for black tea', 'சுங்கக் குறியீடு, எ.கா. கறுப்புத் தேயிலைக்கு 0902.40'], unitLbl: ['Sold per', 'விற்பனை அலகு'],
+  priceGbp: ['Price (£)', 'விலை (£)'], weightG: ['Packed weight (g)', 'பொதியிட்ட எடை (கி)'], leadDays: ['Days to dispatch', 'அனுப்ப எடுக்கும் நாட்கள்'],
+  descEn: ['Description (English)', 'விபரம் (ஆங்கிலம்)'], descTa: ['Description (Tamil)', 'விபரம் (தமிழ்)'], photo: ['Photo', 'படம்'], keepPhoto: ['leave empty to keep the current one', 'தற்போதையதை வைத்திருக்க வெறுமையாக விடுங்கள்'],
+  certFile: ['Certificate', 'சான்றிதழ்'], certHelp: ['Required for gems (lab or NGJA certificate). Optional otherwise: organic, ISO, lab tests.', 'இரத்தினக் கற்களுக்கு அவசியம் (ஆய்வக / NGJA சான்றிதழ்). மற்றவற்றுக்கு விரும்பினால்: சேதன, ISO, ஆய்வுச் சான்று.'],
+  hideProduct: ['Hide from the shop for now', 'தற்போதைக்குக் கடையிலிருந்து மறை'], save: ['Save', 'சேமி'], submitReview: ['Send for review', 'பரிசீலனைக்கு அனுப்பு'],
+  productSent: ['Product sent for review.', 'பொருள் பரிசீலனைக்கு அனுப்பப்பட்டது.'], productResent: ['Saved. The changes go to review before they show in the shop.', 'சேமிக்கப்பட்டது. மாற்றங்கள் கடையில் தோன்றுமுன் பரிசீலிக்கப்படும்.'], saved: ['Saved.', 'சேமிக்கப்பட்டது.'],
+  st_live: ['Live', 'வெளியிடப்பட்டது'], st_review: ['In review', 'பரிசீலனையில்'], st_returned: ['Needs changes', 'மாற்றம் தேவை'], st_hidden: ['Hidden', 'மறைக்கப்பட்டது'], st_verified: ['Verified', 'சரிபார்க்கப்பட்டது'], st_suspended: ['Suspended', 'இடைநிறுத்தப்பட்டது'],
+  items: ['Items', 'பொருட்கள்'], shipTo: ['Ship to', 'அனுப்பும் முகவரி'], markPacked: ['Mark packed', 'பொதியிட்டதாகக் குறி'], markShipped: ['Mark shipped', 'அனுப்பியதாகக் குறி'], trackingPh: ['Courier and tracking number', 'கூரியரும் கண்காணிப்பு இலக்கமும்'],
+  noOrdersYet: ['No paid orders yet.', 'இன்னும் செலுத்தப்பட்ட கட்டளைகள் இல்லை.'], markedPacked: ['Marked as packed.', 'பொதியிட்டதாகக் குறிக்கப்பட்டது.'], markedShipped: ['Marked as shipped. The buyer can now see the tracking number.', 'அனுப்பியதாகக் குறிக்கப்பட்டது. வாங்குநர் இப்போது கண்காணிப்பு இலக்கத்தைப் பார்க்கலாம்.'],
+  shippedSales: ['Goods shipped', 'அனுப்பப்பட்ட பொருட்கள்'], commissionN: ['Commission ({p}%)', 'தரகு ({p}%)'], dueToYou: ['Due to you', 'உங்களுக்குரியது'],
+  payoutNote: ['Payouts cover parcels marked shipped and are paid in rupees to the bank account you registered. Shown at an example rate of Rs {r} to £1.', 'அனுப்பியதாகக் குறிக்கப்பட்ட பொதிகளுக்கே கொடுப்பனவு; பதிவுசெய்த வங்கிக் கணக்கில் ரூபாயில் செலுத்தப்படும். £1 = ரூ {r} எனும் மாதிரி வீதத்தில் காட்டப்படுகிறது.'],
+  /* admin */
+  adminH: ['Admin', 'நிர்வாகம்'], adminP: ['Check new suppliers and products, and keep an eye on orders.', 'புதிய விநியோகஸ்தர்களையும் பொருட்களையும் சரிபார்த்து, கட்டளைகளைக் கண்காணியுங்கள்.'],
+  tQueue: ['Review queue', 'பரிசீலனை வரிசை'], tSuppliers: ['Suppliers', 'விநியோகஸ்தர்கள்'], tSettings: ['Settings', 'அமைப்புகள்'],
+  waitingReview: ['Waiting for review', 'பரிசீலனைக்குக் காத்திருப்பவை'], liveSuppliers: ['Verified suppliers', 'சரிபார்க்கப்பட்ட விநியோகஸ்தர்கள்'], salesPaid: ['Paid orders (incl. duty and VAT)', 'செலுத்தப்பட்ட கட்டளைகள் (வரி, VAT உட்பட)'], commissionEarned: ['Commission on shipped goods', 'அனுப்பிய பொருட்களுக்கான தரகு'],
+  qSupplier: ['New supplier', 'புதிய விநியோகஸ்தர்'], qProduct: ['New product', 'புதிய பொருள்'], docsN: ['{n} documents', '{n} ஆவணங்கள்'], review: ['Review', 'பரிசீலி'], certMissing: ['certificate missing', 'சான்றிதழ் இல்லை'],
+  allClear: ['Nothing waiting. All clear.', 'காத்திருப்பவை எதுவும் இல்லை.'],
+  approveSupplierHint: ['Check the registration and ID match the business and contact name, and the bank document is in the business’s name.', 'பதிவும் அடையாளமும் வணிகம், தொடர்பாளர் பெயருடன் பொருந்துகின்றனவா, வங்கி ஆவணம் வணிகத்தின் பெயரில் உள்ளதா எனச் சரிபாருங்கள்.'],
+  approve: ['Approve', 'அங்கீகரி'], reject: ['Reject', 'நிராகரி'], approvePublish: ['Approve and publish', 'அங்கீகரித்து வெளியிடு'], sendBack: ['Send back for changes', 'மாற்றத்துக்குத் திருப்பி அனுப்பு'],
+  ukCheck: ['UK import check', 'UK இறக்குமதிச் சரிபார்ப்பு'],
+  rule_ok: ['No special UK import rules expected for this category.', 'இவ்வகைக்குச் சிறப்பு UK இறக்குமதி விதிகள் எதிர்பார்க்கப்படவில்லை.'],
+  rule_food: ['Food: check ingredients and allergens are on the label and the product is shelf-stable.', 'உணவு: மூலப்பொருட்களும் ஒவ்வாமைத் தகவலும் லேபலில் உள்ளனவா, பொருள் நீண்டகாலம் கெடாததா எனச் சரிபாருங்கள்.'],
+  rule_ayurveda: ['Ayurveda: no medical claims allowed in the UK. Remove any “cures” or “treats” wording before approving.', 'ஆயுர்வேதம்: UK இல் மருத்துவக் கூற்றுகள் அனுமதியில்லை. அங்கீகரிக்கும் முன் “குணமாக்கும்” போன்ற சொற்களை நீக்குங்கள்.'],
+  rule_gems_ok: ['Gem certificate attached. Check it matches the stone, weight and description.', 'இரத்தினச் சான்றிதழ் இணைக்கப்பட்டுள்ளது. கல், எடை, விபரத்துடன் பொருந்துகிறதா எனச் சரிபாருங்கள்.'],
+  rule_gems_cert: ['Gems need a lab or NGJA certificate before they can go live.', 'இரத்தினக் கற்கள் வெளியிடப்படுமுன் ஆய்வக / NGJA சான்றிதழ் தேவை.'],
+  products: ['Products', 'பொருட்கள்'], suspend: ['Suspend', 'இடைநிறுத்து'], reinstate: ['Reinstate', 'மீளமை'], buyer: ['Buyer', 'வாங்குநர்'],
+  commission: ['Commission', 'தரகு'], commissionPct: ['Commission on goods (%)', 'பொருட்களுக்கான தரகு (%)'], commissionHelp: ['Taken from the goods value of each parcel before the supplier is paid. Not charged on shipping, duty or VAT.', 'விநியோகஸ்தருக்குச் செலுத்துமுன் ஒவ்வொரு பொதியின் பொருட் பெறுமதியிலிருந்து எடுக்கப்படும். கப்பல், வரி, VAT மீது அல்ல.'],
+  sellerApproved: ['Supplier approved. They can now list products.', 'விநியோகஸ்தர் அங்கீகரிக்கப்பட்டார். இப்போது பொருட்களைப் பட்டியலிடலாம்.'], rejectedT: ['Application rejected.', 'விண்ணப்பம் நிராகரிக்கப்பட்டது.'],
+  productLive: ['Product is live.', 'பொருள் வெளியிடப்பட்டது.'], returnedT: ['Sent back to the supplier.', 'விநியோகஸ்தருக்குத் திருப்பி அனுப்பப்பட்டது.'], suspendedT: ['Supplier suspended. Their products are hidden.', 'விநியோகஸ்தர் இடைநிறுத்தப்பட்டார். அவர்களின் பொருட்கள் மறைக்கப்பட்டன.'], reinstatedT: ['Supplier reinstated.', 'விநியோகஸ்தர் மீளமைக்கப்பட்டார்.'],
+  /* errors */
+  fixThese: ['Please fix these:', 'இவற்றைச் சரிசெய்யுங்கள்:'], required: ['Fill in all the required fields.', 'தேவையான அனைத்துப் புலங்களையும் நிரப்புங்கள்.'],
+  errEmail: ['Enter a valid email address.', 'சரியான மின்னஞ்சல் முகவரியை உள்ளிடுங்கள்.'], errPostcode: ['Enter a valid UK postcode.', 'சரியான UK அஞ்சல் குறியீட்டை உள்ளிடுங்கள்.'],
+  errName: ['Enter your name.', 'உங்கள் பெயரை உள்ளிடுங்கள்.'], errPassword: ['Password must be at least 10 characters.', 'கடவுச்சொல் குறைந்தது 10 எழுத்துகள் இருக்க வேண்டும்.'], errPasswordAdmin: ['Admin password must be at least 12 characters.', 'நிர்வாகக் கடவுச்சொல் குறைந்தது 12 எழுத்துகள்.'],
+  errEmailTaken: ['An account with that email already exists.', 'அம்மின்னஞ்சலுடன் ஏற்கனவே கணக்கு உள்ளது.'], errLogin: ['Email or password is wrong.', 'மின்னஞ்சல் அல்லது கடவுச்சொல் தவறு.'], errThrottle: ['Too many attempts. Try again in 15 minutes.', 'அதிக முயற்சிகள். 15 நிமிடங்களில் மீண்டும் முயலுங்கள்.'],
+  errSetupCode: ['Setup code is wrong.', 'அமைப்புக் குறியீடு தவறு.'], errPendingApp: ['You already have an application under review.', 'உங்கள் விண்ணப்பம் ஏற்கனவே பரிசீலனையில் உள்ளது.'], errCats: ['Choose at least one category.', 'குறைந்தது ஒரு வகையைத் தெரிவுசெய்யுங்கள்.'], mustAgree: ['Please confirm and agree to the seller terms.', 'விற்பனையாளர் நிபந்தனைகளை உறுதிப்படுத்தி ஏற்றுக்கொள்ளுங்கள்.'],
+  errHs: ['HS code should look like 0902.40 (4 to 8 digits).', 'HS குறியீடு 0902.40 போல இருக்க வேண்டும் (4 முதல் 8 இலக்கங்கள்).'], errPrice: ['Price must be between £0.50 and £10,000.', 'விலை £0.50 முதல் £10,000 வரை இருக்க வேண்டும்.'],
+  errWeight: ['Weight must be between 1 g and 30 kg.', 'எடை 1 கி முதல் 30 கிகி வரை.'], errStock: ['Stock must be between 0 and 100,000.', 'கையிருப்பு 0 முதல் 100,000 வரை.'], errCert: ['Gems need a certificate.', 'இரத்தினக் கற்களுக்குச் சான்றிதழ் தேவை.'],
+  errTracking: ['Enter the tracking number.', 'கண்காணிப்பு இலக்கத்தை உள்ளிடுங்கள்.'], errCommission: ['Commission must be between 0 and 50%.', 'தரகு 0 முதல் 50% வரை.'],
+  file_missing: ['Upload: {f}', 'பதிவேற்றுக: {f}'], file_too_big: ['{f} is larger than 5 MB.', '{f} 5 MB ஐ விடப் பெரியது.'], file_bad_type: ['{f} must be a PDF, JPG, PNG or WebP file.', '{f} PDF, JPG, PNG அல்லது WebP கோப்பாக இருக்க வேண்டும்.'],
+  file_bad_media: ['{f} must be a JPG, PNG or WebP photo.', '{f} JPG, PNG அல்லது WebP படமாக இருக்க வேண்டும்.'], file_bad_photo: ['{f} must be a JPG, PNG or WebP photo.', '{f} JPG, PNG அல்லது WebP படமாக இருக்க வேண்டும்.'], file_video_big: ['{f} is too large.', '{f} மிகப் பெரியது.'],
+  notFound: ['Page not found', 'பக்கம் கிடைக்கவில்லை'], notFoundP: ['That page does not exist or has moved.', 'அப்பக்கம் இல்லை அல்லது இடம் மாறியுள்ளது.'],
+  forbidden: ['Not allowed', 'அனுமதி இல்லை'], forbiddenP: ['Your account cannot open this page.', 'உங்கள் கணக்கால் இப்பக்கத்தைத் திறக்க முடியாது.'],
+  errCsrf: ['Form expired', 'படிவம் காலாவதியானது'], errCsrfP: ['Please go back, reload the page and try again.', 'பின்சென்று பக்கத்தை மீளேற்றி மீண்டும் முயலுங்கள்.'],
+  tooLarge: ['Upload too large', 'பதிவேற்றம் மிகப் பெரியது'], tooLargeP: ['The files together are too large. Use smaller files.', 'கோப்புகள் மிகப் பெரியவை. சிறிய கோப்புகளைப் பயன்படுத்துங்கள்.'],
+  badRequest: ['Something was missing', 'ஏதோ விடுபட்டுள்ளது'], badRequestP: ['Please go back and check the form.', 'பின்சென்று படிவத்தைச் சரிபாருங்கள்.'],
+  serverError: ['Something went wrong', 'ஏதோ தவறு நடந்தது'], serverErrorP: ['Please try again in a moment.', 'சிறிது நேரத்தில் மீண்டும் முயலுங்கள்.'], backHome: ['Back to home', 'முகப்புக்குத் திரும்பு']
+};
+
+/* Data terms: categories, business types, districts. */
+const DT = {
+  'Tea': 'தேயிலை', 'Spices': 'வாசனைப் பொருட்கள்', 'Coconut': 'தேங்காய்ப் பொருட்கள்', 'Food': 'உணவுப் பொருட்கள்', 'Apparel': 'ஆடைகள்', 'Gems': 'இரத்தினக் கற்கள்', 'Ayurveda': 'ஆயுர்வேதம்', 'Crafts': 'கைவினைப் பொருட்கள்',
+  'Manufacturer': 'உற்பத்தி நிறுவனம்', 'Exporter': 'ஏற்றுமதியாளர்', 'Estate or farm': 'தோட்டம் / பண்ணை', 'Cooperative': 'கூட்டுறவுச் சங்கம்', 'Small business': 'சிறு வணிகம்', 'Artisan': 'கைவினைஞர்',
+  'Sri Lanka': 'இலங்கை', 'UK': 'ஐக்கிய இராச்சியம்',
+  'Ampara': 'அம்பாறை', 'Anuradhapura': 'அனுராதபுரம்', 'Badulla': 'பதுளை', 'Batticaloa': 'மட்டக்களப்பு', 'Colombo': 'கொழும்பு', 'Galle': 'காலி', 'Gampaha': 'கம்பஹா', 'Hambantota': 'அம்பாந்தோட்டை', 'Jaffna': 'யாழ்ப்பாணம்', 'Kalutara': 'களுத்துறை', 'Kandy': 'கண்டி', 'Kegalle': 'கேகாலை', 'Kilinochchi': 'கிளிநொச்சி', 'Kurunegala': 'குருநாகல்', 'Mannar': 'மன்னார்', 'Matale': 'மாத்தளை', 'Matara': 'மாத்தறை', 'Monaragala': 'மொனராகலை', 'Mullaitivu': 'முல்லைத்தீவு', 'Nuwara Eliya': 'நுவரெலியா', 'Polonnaruwa': 'பொலன்னறுவை', 'Puttalam': 'புத்தளம்', 'Ratnapura': 'இரத்தினபுரி', 'Trincomalee': 'திருகோணமலை', 'Vavuniya': 'வவுனியா'
+};
+const CATEGORIES = ['Tea', 'Spices', 'Coconut', 'Food', 'Apparel', 'Gems', 'Ayurveda', 'Crafts'];
+const TYPES = ['Manufacturer', 'Exporter', 'Estate or farm', 'Cooperative', 'Small business', 'Artisan'];
+const DISTRICTS = ['Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle', 'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 'Kandy', 'Kegalle', 'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala', 'Mullaitivu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura', 'Trincomalee', 'Vavuniya'];
+
+function makeT(lang) {
+  const i = lang === 'ta' ? 1 : 0;
+  return (key, vars) => {
+    const e = T[key]; let s = e ? e[i] : key;
+    if (vars) s = s.replace(/\{(\w+)\}/g, (m, k) => (vars[k] !== undefined ? vars[k] : m));
+    return s;
+  };
+}
+const dt = (s, lang) => (lang === 'ta' && DT[s] ? DT[s] : s);
+
+module.exports = { T, DT, makeT, dt, TYPES, CATEGORIES, DISTRICTS };
