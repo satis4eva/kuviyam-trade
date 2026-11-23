@@ -26,12 +26,21 @@ const ART = {
 const art = (cat) => { const [a, b, shape] = ART[cat] || ART.Food; return raw(`<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><rect width="320" height="200" fill="${b}"/><rect width="320" height="200" fill="${a}" opacity=".4"/>${shape}</svg>`); };
 const productImg = (p) => (p.photo_id ? h`<img src="/files/${p.photo_id}" alt="" loading="lazy">` : art(p.category));
 
+// Price line: fixed-price products the buyer can order now show price + delivery; everything else shows the MOQ guide price.
+function priceLine(ctx, p) {
+  const { t } = ctx;
+  if (p.buyable) return h`<b class="price num">${gbp(p.price_pence)}</b><span class="tiny muted">${p.delivery ? t('plusDelivery', { d: gbp(p.delivery) }) : t('freeDelivery')}</span>`;
+  return h`<span><span class="tiny muted">${t('guideFrom')}</span> <b class="price num">${gbp(p.price_pence)}</b><span class="tiny muted"> / ${p.unit}</span></span><span class="tiny muted">${t('moqN', { n: p.moq, u: p.unit })}</span>`;
+}
+const fromChip = (ctx, from) => h`<span class="chip ${from === 'Sri Lanka' ? 'plain' : 'navyc'}">${ctx.t(from === 'Sri Lanka' ? 'fromLK' : 'fromUK')}</span>`;
+const modeChip = (ctx, p) => (p.buyable ? h`<span class="chip good">${ctx.t('buyNow')}</span>` : h`<span class="chip amber">${ctx.t('getQuote')}</span>`);
+
 function productCard(ctx, p) {
-  const { t, lang } = ctx;
+  const { lang } = ctx;
   return h`<a class="card pcard plain" href="/products/${p.id}"><span class="img">${productImg(p)}</span><span class="pad stack6">
-    <span class="pname">${L(p, 'name', lang)}</span><b class="price num">${gbp(p.price_pence)}</b>
-    <span class="row between"><span class="tiny muted">${L(p, 'supplier_name', lang)}</span><span class="tiny muted">${t('soldN', { n: p.sold })}</span></span>
-    <span class="row"><span class="chip">${dt(p.category, lang)}</span>${p.stock > 0 ? '' : h`<span class="chip warn">${t('outOfStock')}</span>`}</span></span></a>`;
+    <span class="pname">${L(p, 'name', lang)}</span>${priceLine(ctx, p)}
+    <span class="tiny muted">${L(p, 'supplier_name', lang)}</span>
+    <span class="row">${modeChip(ctx, p)}${fromChip(ctx, p.ships_from)}</span></span></a>`;
 }
 
-module.exports = { L, avatar, csrfField, postBtn, options, errors, art, productImg, productCard };
+module.exports = { L, avatar, csrfField, postBtn, options, errors, art, productImg, productCard, priceLine, fromChip, modeChip };

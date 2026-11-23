@@ -8,24 +8,25 @@ const { nowIso } = require('./util');
 /* One SQLite file outside the app folder (DATA_DIR, default ~/kuviyam-trade-data), so deploys never wipe it. */
 function open(file) {
   const dataDir = process.env.DATA_DIR || path.join(os.homedir(), 'kuviyam-trade-data');
-  const dbFile = file || process.env.DB_FILE || path.join(dataDir, 'trade.db');
+  const dbFile = file || process.env.DB_FILE || path.join(dataDir, 'trade-global.db');
   if (dbFile !== ':memory:') fs.mkdirSync(path.dirname(dbFile), { recursive: true });
   const db = new DatabaseSync(dbFile);
   db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;');
   for (const s of SCHEMA) db.exec(s);
   db.prepare(`INSERT OR IGNORE INTO settings (key, value) VALUES ('commission_pct', '10')`).run();
+  db.prepare(`INSERT OR IGNORE INTO settings (key, value) VALUES ('uk_small_vat', '1')`).run();
   return db;
 }
 
 const SCHEMA = [
-  `CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT NOT NULL UNIQUE COLLATE NOCASE, name TEXT NOT NULL, password_hash TEXT NOT NULL, role TEXT NOT NULL DEFAULT 'buyer', created_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT NOT NULL UNIQUE COLLATE NOCASE, name TEXT NOT NULL, whatsapp TEXT, password_hash TEXT NOT NULL, role TEXT NOT NULL DEFAULT 'buyer', created_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS sessions (id TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS suppliers (
      id INTEGER PRIMARY KEY, slug TEXT NOT NULL UNIQUE, name TEXT NOT NULL, name_ta TEXT, type TEXT NOT NULL, district TEXT NOT NULL,
-     about TEXT, about_ta TEXT, status TEXT NOT NULL DEFAULT 'verified', since INTEGER, color TEXT, contact_email TEXT, phone TEXT, created_at TEXT NOT NULL)`,
+     about TEXT, about_ta TEXT, status TEXT NOT NULL DEFAULT 'verified', since INTEGER, color TEXT, contact_email TEXT, phone TEXT, whatsapp TEXT, ships_from TEXT NOT NULL DEFAULT 'Sri Lanka', created_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS supplier_members (supplier_id INTEGER NOT NULL REFERENCES suppliers(id) ON DELETE CASCADE, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, PRIMARY KEY (supplier_id, user_id))`,
   `CREATE TABLE IF NOT EXISTS applications (
-     id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL, name TEXT NOT NULL, name_ta TEXT, type TEXT NOT NULL, district TEXT NOT NULL, br_no TEXT NOT NULL,
+     id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL, name TEXT NOT NULL, name_ta TEXT, type TEXT NOT NULL, district TEXT NOT NULL, ships_from TEXT NOT NULL DEFAULT 'Sri Lanka', br_no TEXT NOT NULL,
      contact TEXT NOT NULL, email TEXT NOT NULL, phone TEXT, categories TEXT NOT NULL, about TEXT NOT NULL, about_ta TEXT,
      status TEXT NOT NULL DEFAULT 'pending', reason TEXT, supplier_id INTEGER, created_at TEXT NOT NULL, reviewed_at TEXT)`,
   `CREATE TABLE IF NOT EXISTS files (id INTEGER PRIMARY KEY, owner_kind TEXT NOT NULL, owner_id INTEGER NOT NULL, label TEXT NOT NULL, filename TEXT NOT NULL, mime TEXT NOT NULL, size INTEGER NOT NULL, data BLOB NOT NULL, created_at TEXT NOT NULL)`,
@@ -33,11 +34,12 @@ const SCHEMA = [
      id INTEGER PRIMARY KEY, supplier_id INTEGER NOT NULL REFERENCES suppliers(id), name TEXT NOT NULL, name_ta TEXT, category TEXT NOT NULL,
      description TEXT NOT NULL, description_ta TEXT, price_pence INTEGER NOT NULL, weight_g INTEGER NOT NULL, hs_code TEXT NOT NULL, unit TEXT NOT NULL DEFAULT 'item',
      stock INTEGER NOT NULL DEFAULT 0, lead_days INTEGER NOT NULL DEFAULT 7, status TEXT NOT NULL DEFAULT 'review', reason TEXT,
-     photo_id INTEGER, cert_id INTEGER, sold INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL)`,
+     photo_id INTEGER, cert_id INTEGER, sold INTEGER NOT NULL DEFAULT 0, mode TEXT NOT NULL DEFAULT 'quote', moq INTEGER NOT NULL DEFAULT 1, created_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS supplier_rates (supplier_id INTEGER NOT NULL REFERENCES suppliers(id) ON DELETE CASCADE, zone TEXT NOT NULL, charge_pence INTEGER NOT NULL, PRIMARY KEY (supplier_id, zone))`,
   `CREATE TABLE IF NOT EXISTS cart_items (cart_id TEXT NOT NULL, product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE, qty INTEGER NOT NULL, PRIMARY KEY (cart_id, product_id))`,
   `CREATE TABLE IF NOT EXISTS orders (
      id INTEGER PRIMARY KEY, ref TEXT NOT NULL UNIQUE, user_id INTEGER, name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT,
-     address1 TEXT NOT NULL, address2 TEXT, city TEXT NOT NULL, postcode TEXT NOT NULL, country TEXT NOT NULL DEFAULT 'UK',
+     address1 TEXT NOT NULL, address2 TEXT, city TEXT NOT NULL, postcode TEXT NOT NULL, country TEXT NOT NULL, request_id INTEGER,
      goods_pence INTEGER NOT NULL, shipping_pence INTEGER NOT NULL, duty_pence INTEGER NOT NULL, vat_pence INTEGER NOT NULL, total_pence INTEGER NOT NULL,
      status TEXT NOT NULL DEFAULT 'pending', provider TEXT NOT NULL, provider_ref TEXT, created_at TEXT NOT NULL, paid_at TEXT)`,
   `CREATE TABLE IF NOT EXISTS order_items (
@@ -46,11 +48,22 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS shipments (
      id INTEGER PRIMARY KEY, order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE, supplier_id INTEGER NOT NULL,
      status TEXT NOT NULL DEFAULT 'paid', tracking TEXT, shipping_pence INTEGER NOT NULL DEFAULT 0, goods_pence INTEGER NOT NULL DEFAULT 0, updated_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS requests (
+     id INTEGER PRIMARY KEY, ref TEXT NOT NULL UNIQUE, product_id INTEGER NOT NULL REFERENCES products(id), supplier_id INTEGER NOT NULL, buyer_id INTEGER NOT NULL REFERENCES users(id),
+     country TEXT NOT NULL, qty INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'open', created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, request_id INTEGER NOT NULL REFERENCES requests(id) ON DELETE CASCADE, sender TEXT NOT NULL, user_id INTEGER, body TEXT NOT NULL, via TEXT NOT NULL DEFAULT 'web', created_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS quotes (
+     id INTEGER PRIMARY KEY, request_id INTEGER NOT NULL REFERENCES requests(id) ON DELETE CASCADE, qty INTEGER NOT NULL, goods_pence INTEGER NOT NULL, shipping_pence INTEGER NOT NULL, handling_pence INTEGER NOT NULL DEFAULT 0,
+     valid_until TEXT NOT NULL, note TEXT, status TEXT NOT NULL DEFAULT 'offered', created_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS wa_log (id INTEGER PRIMARY KEY, direction TEXT NOT NULL, phone TEXT NOT NULL, body TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS audit (id INTEGER PRIMARY KEY, user_id INTEGER, action TEXT NOT NULL, detail TEXT, created_at TEXT NOT NULL)`,
   `CREATE INDEX IF NOT EXISTS idx_products_status ON products(status, category)`,
   `CREATE INDEX IF NOT EXISTS idx_items_order ON order_items(order_id)`,
-  `CREATE INDEX IF NOT EXISTS idx_ship_supplier ON shipments(supplier_id, status)`
+  `CREATE INDEX IF NOT EXISTS idx_ship_supplier ON shipments(supplier_id, status)`,
+  `CREATE INDEX IF NOT EXISTS idx_req_buyer ON requests(buyer_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_req_supplier ON requests(supplier_id, status)`,
+  `CREATE INDEX IF NOT EXISTS idx_msg_req ON messages(request_id)`
 ];
 
 const audit = (db, userId, action, detail) =>
