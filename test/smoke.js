@@ -49,7 +49,7 @@ async function step(name, fn) { await fn(); passed++; console.log('  ✓', name)
     let bop; let ukCurry; let green; let gem;
     await step('public pages render', async () => {
       for (const u of ['/', '/products', '/suppliers', '/suppliers/nuwara-hills-tea', '/suppliers/lanka-pantry-london', '/cart', '/sell', '/login', '/register']) {
-        const r = await buyer.get(u); assert.equal(r.status, 200, u); assert.match(r.text, /Kuviyam Trade/);
+        const r = await buyer.get(u); assert.equal(r.status, 200, u); assert.match(r.text, /Trade Hub/);
       }
       assert.match((await buyer.get('/')).text, /Source from Sri Lanka/);
       bop = await idOf(buyer, 'BOP black'); ukCurry = await idOf(buyer, 'Roasted curry powder'); green = await idOf(buyer, 'Green tea, 100'); gem = await idOf(buyer, 'Blue sapphire');
@@ -94,14 +94,14 @@ async function step(name, fn) { await fn(); passed++; console.log('  ✓', name)
     const qb = new Client(); await qb.get('/register');
     await qb.post('/register', { name: 'Kumar Toronto', email: 'kumar@example.com', password: 'long-password-1' });
     const sup = new Client(); await sup.get('/login');
-    await sup.post('/login', { email: 'supplier@demo.kuviyam.org', password: 'demo-pass-2026', next: '/dashboard' });
+    await sup.post('/login', { email: 'supplier@demo.dbsgroup.io', password: 'demo-pass-2026', next: '/dashboard' });
     let rq;
     await step('quote request: contact details hidden, supplier notified', async () => {
       const r = await qb.post(`/products/${green}/request`, { qty: 200, country: 'Canada', note: 'Own label please. Call me on +1 416 555 0199 or kumar@example.com', whatsapp: '+1 416 555 0100' });
       assert.match(r.location, /^\/messages\/RQ-/); rq = r.location.split('/').pop();
       const t = await qb.get(r.location); assert.match(t.text, /Quote requested: 200 pack to Canada/); assert.match(t.text, /\[contact hidden\]/); assert.doesNotMatch(t.text, /555 0199/);
       assert.equal((await new Client().get(r.location)).status, 303, 'anonymous goes to login');
-      const other = new Client(); await other.get('/login'); await other.post('/login', { email: 'ukshop@demo.kuviyam.org', password: 'demo-pass-2026', next: '/' });
+      const other = new Client(); await other.get('/login'); await other.post('/login', { email: 'ukshop@demo.dbsgroup.io', password: 'demo-pass-2026', next: '/' });
       assert.equal((await other.get(r.location)).status, 404, 'other users cannot read it');
     });
     await step('supplier sets WhatsApp and delivery, replies and quotes', async () => {
@@ -134,11 +134,11 @@ async function step(name, fn) { await fn(); passed++; console.log('  ✓', name)
       const sig = 'sha256=' + crypto.createHmac('sha256', 'wa-test-secret').update(payload).digest('hex');
       const bad = await fetch(BASE + '/webhooks/whatsapp', { method: 'POST', body: payload, headers: { 'content-type': 'application/json', 'x-hub-signature-256': 'sha256=bad' } }); assert.equal(bad.status, 403);
       const ok = await fetch(BASE + '/webhooks/whatsapp', { method: 'POST', body: payload, headers: { 'content-type': 'application/json', 'x-hub-signature-256': sig } }); assert.equal(ok.status, 200);
-      const demoBuyer = new Client(); await demoBuyer.get('/login'); await demoBuyer.post('/login', { email: 'buyer@demo.kuviyam.org', password: 'demo-pass-2026', next: '/' });
+      const demoBuyer = new Client(); await demoBuyer.get('/login'); await demoBuyer.post('/login', { email: 'buyer@demo.dbsgroup.io', password: 'demo-pass-2026', next: '/' });
       const t = await demoBuyer.get('/messages/RQ-DEMO0001'); assert.match(t.text, /Label proof is ready/); assert.match(t.text, /WhatsApp/); assert.doesNotMatch(t.text, /0771234567/);
     });
     await step('UK shop adds a buy-now product', async () => {
-      const uk = new Client(); await uk.get('/login'); await uk.post('/login', { email: 'ukshop@demo.kuviyam.org', password: 'demo-pass-2026', next: '/dashboard' });
+      const uk = new Client(); await uk.get('/login'); await uk.post('/login', { email: 'ukshop@demo.dbsgroup.io', password: 'demo-pass-2026', next: '/dashboard' });
       const r = await uk.postMultipart('/dashboard/products', { name: 'Murukku, 400 g', category: 'Food', hs_code: '1905.90', unit: 'pack', mode: 'fixed', price: '3.49', moq: '1', weight_g: '450', stock: '40', description: 'Crunchy murukku.' }, { photo: ['m.png', PNG, 'image/png'] });
       assert.equal(r.location, '/dashboard/products'); assert.match((await uk.get('/dashboard/products')).text, /Fixed price, buy now/);
       assert.equal((await uk.postMultipart('/dashboard/products', { name: 'Ruby', category: 'Gems', hs_code: '7103.91', price: '100', weight_g: '50', stock: '1', description: 'x' })).status, 400);

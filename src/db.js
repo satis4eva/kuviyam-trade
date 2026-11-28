@@ -15,6 +15,8 @@ function open(file) {
   for (const s of SCHEMA) db.exec(s);
   db.prepare(`INSERT OR IGNORE INTO settings (key, value) VALUES ('commission_pct', '10')`).run();
   db.prepare(`INSERT OR IGNORE INTO settings (key, value) VALUES ('uk_small_vat', '1')`).run();
+  /* Rebrand: move any existing demo logins off the old domain. */
+  try { db.prepare(`UPDATE users SET email = REPLACE(email, '@demo.kuviyam.org', '@demo.dbsgroup.io') WHERE email LIKE '%@demo.kuviyam.org'`).run(); } catch (e) { /* users table missing: nothing to move */ }
   return db;
 }
 

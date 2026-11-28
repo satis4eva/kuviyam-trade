@@ -18,12 +18,12 @@ function layout(ctx, { title, body, active = '' }) {
 <meta name="description" content="${t('metaDescription')}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Figtree:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/styles.css"><link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 ${process.env.DEMO_MODE === '1' ? h`<div class="demo">${t('demoBanner')}</div>` : ''}
 <header class="top"><div class="top-in">
-  <a class="logo" href="/"><img src="/static/logo.svg" alt="" width="30" height="30"><span><b>${t('brand')}</b><small>${t('tagline')}</small></span></a>
+  <a class="logo" href="/"><span><b>${t('brand')}</b><small>${t('tagline')}</small></span></a>
   <form class="tsearch" action="/products" method="get" role="search"><label class="sr" for="tcat">${t('category')}</label><select id="tcat" name="category"><option value="">${t('all')}</option>${CATEGORIES.map((c) => h`<option value="${c}">${dt(c, lang)}</option>`)}</select><label class="sr" for="tq">${t('searchLbl')}</label><input id="tq" name="q" placeholder="${t('searchPh')}"><button>${t('search')}</button></form>
   <div class="tools">
     <div class="lang" role="group" aria-label="Language / மொழி"><a href="/lang/en?back=${raw(back)}" class="${lang === 'en' ? 'on' : ''}">English</a><a href="/lang/ta?back=${raw(back)}" class="${lang === 'ta' ? 'on' : ''}">தமிழ்</a></div>

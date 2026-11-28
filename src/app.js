@@ -172,7 +172,7 @@ function createApp(db) {
     db.prepare('UPDATE requests SET updated_at = ? WHERE id = ?').run(nowIso(), r.id);
   };
   // Tell the other side on WhatsApp (if they gave a number). Always points back to the thread on the site.
-  const notify = (ctx, r, to, text) => { const phone = to === 'supplier' ? r.supplier_wa : r.buyer_wa; if (phone) wa.sendLater(db, phone, `Kuviyam Trade ${r.ref}: ${text.slice(0, 300)}\n${siteUrl(ctx)}/messages/${r.ref}\nReply to this message to answer.`); };
+  const notify = (ctx, r, to, text) => { const phone = to === 'supplier' ? r.supplier_wa : r.buyer_wa; if (phone) wa.sendLater(db, phone, `Trade Hub ${r.ref}: ${text.slice(0, 300)}\n${siteUrl(ctx)}/messages/${r.ref}\nReply to this message to answer.`); };
 
   route('POST', '/products/:id/request', (ctx) => {
     if (!requireUser(ctx)) return;
@@ -352,7 +352,7 @@ function createApp(db) {
       else if (ctx.cartId) db.prepare('DELETE FROM cart_items WHERE cart_id = ?').run(ctx.cartId);
     });
     if (req) notify(ctx, req, 'supplier', `Paid: order ${o.ref}. Please pack and ship, then add the tracking number in your dashboard.`);
-    else for (const sid of new Set(items.map((i) => i.supplier_id))) { const s = db.prepare('SELECT whatsapp FROM suppliers WHERE id = ?').get(sid); if (s && s.whatsapp) wa.sendLater(db, s.whatsapp, `Kuviyam Trade: new paid order ${o.ref} to ${o.country}. Open your dashboard to pack and ship.`); }
+    else for (const sid of new Set(items.map((i) => i.supplier_id))) { const s = db.prepare('SELECT whatsapp FROM suppliers WHERE id = ?').get(sid); if (s && s.whatsapp) wa.sendLater(db, s.whatsapp, `Trade Hub: new paid order ${o.ref} to ${o.country}. Open your dashboard to pack and ship.`); }
     ctx.cookies.push(auth.cookie('justpaid', o.ref, { maxAge: 120, secure: secure(ctx.req) }));
     redirect(ctx, `/orders/${o.ref}`);
   });
@@ -383,10 +383,10 @@ function createApp(db) {
       wa.log(db, 'in', m.from, m.text, 'received');
       const user = db.prepare('SELECT id, name FROM users WHERE whatsapp = ?').get(m.from);
       const supplier = db.prepare(`SELECT id FROM suppliers WHERE whatsapp = ? AND status = 'verified'`).get(m.from);
-      if (!user && !supplier) { wa.sendLater(db, m.from, 'Kuviyam Trade: this number is not linked to an account. Add it on the website first.', 'reply'); continue; }
+      if (!user && !supplier) { wa.sendLater(db, m.from, 'Trade Hub: this number is not linked to an account. Add it on the website first.', 'reply'); continue; }
       const mine = `(${user ? 'r.buyer_id = ' + Number(user.id) : '0'} OR ${supplier ? 'r.supplier_id = ' + Number(supplier.id) : '0'})`;
       const word = m.text.toLowerCase();
-      if (word === 'help') { wa.sendLater(db, m.from, 'Kuviyam Trade bot. Send "status" to see your open requests. Start a message with the request number (e.g. RQ-1A2B3C4D) to post it there; otherwise it goes to your latest open request.', 'reply'); continue; }
+      if (word === 'help') { wa.sendLater(db, m.from, 'Trade Hub bot. Send "status" to see your open requests. Start a message with the request number (e.g. RQ-1A2B3C4D) to post it there; otherwise it goes to your latest open request.', 'reply'); continue; }
       if (word === 'status') {
         const open = db.prepare(`SELECT r.ref, r.status, p.name FROM requests r JOIN products p ON p.id = r.product_id WHERE ${mine} AND r.status IN ('open','quoted','accepted','paid') ORDER BY r.updated_at DESC LIMIT 5`).all();
         wa.sendLater(db, m.from, open.length ? open.map((r) => `${r.ref}: ${r.name} (${r.status})`).join('\n') : 'No open requests.', 'reply'); continue;
@@ -554,7 +554,7 @@ function createApp(db) {
     if (!tracking) return redirect(ctx, '/dashboard/orders', { kind: 'bad', msg: ctx.t('errTracking') });
     if (!db.prepare(`UPDATE shipments SET status = 'shipped', tracking = ?, updated_at = ? WHERE id = ? AND supplier_id = ? AND status = 'packed'`).run(tracking, nowIso(), Number(ctx.params.id), s.id).changes) throw new HttpError(404);
     const b = db.prepare(`SELECT o.ref, o.country, u.whatsapp FROM shipments sh JOIN orders o ON o.id = sh.order_id LEFT JOIN users u ON u.id = o.user_id WHERE sh.id = ?`).get(Number(ctx.params.id));
-    if (b && b.whatsapp) wa.sendLater(db, b.whatsapp, `Kuviyam Trade: order ${b.ref} has shipped from ${s.name}. Tracking: ${tracking}.${s.ships_from !== b.country ? ' Import duty and local taxes are paid on delivery.' : ''}`);
+    if (b && b.whatsapp) wa.sendLater(db, b.whatsapp, `Trade Hub: order ${b.ref} has shipped from ${s.name}. Tracking: ${tracking}.${s.ships_from !== b.country ? ' Import duty and local taxes are paid on delivery.' : ''}`);
     redirect(ctx, '/dashboard/orders', { kind: 'good', msg: ctx.t('markedShipped') });
   });
   route('GET', '/dashboard/payouts', (ctx) => {
@@ -574,7 +574,7 @@ function createApp(db) {
       db.prepare('DELETE FROM supplier_rates WHERE supplier_id = ?').run(s.id);
       for (const [z, pp] of Object.entries(charges)) db.prepare('INSERT INTO supplier_rates (supplier_id, zone, charge_pence) VALUES (?, ?, ?)').run(s.id, z, pp);
     });
-    if (phone && phone !== s.whatsapp) wa.sendLater(db, phone, `Kuviyam Trade: WhatsApp updates are on for ${s.name}. Reply "help" for commands.`);
+    if (phone && phone !== s.whatsapp) wa.sendLater(db, phone, `Trade Hub: WhatsApp updates are on for ${s.name}. Reply "help" for commands.`);
     redirect(ctx, '/dashboard/settings', { kind: 'good', msg: ctx.t('saved') });
   });
 

@@ -161,7 +161,7 @@ function login(ctx, d) {
     <label class="f">${t('email')}<input type="email" name="email" value="${d.email || ''}" required autocomplete="email"></label>
     <label class="f">${t('password')}<input type="password" name="password" required autocomplete="current-password"></label>
     <button class="btn navy">${t('login')}</button><p class="small">${t('noAccount')} <a href="/register${d.next ? raw('?next=' + encodeURIComponent(d.next)) : ''}">${t('register')}</a></p>
-    ${process.env.DEMO_MODE === '1' && process.env.DEMO_PASSWORD ? h`<div class="tiny muted stack6"><span>${t('demoLogins')}</span><span>supplier@demo.kuviyam.org · ${t('demoSupplierLK')}</span><span>ukshop@demo.kuviyam.org · ${t('demoSupplierUK')}</span><span>buyer@demo.kuviyam.org · ${t('demoBuyer')}</span><span>${t('password')}: ${process.env.DEMO_PASSWORD}</span></div>` : ''}</form></section>`;
+    ${process.env.DEMO_MODE === '1' && process.env.DEMO_PASSWORD ? h`<div class="tiny muted stack6"><span>${t('demoLogins')}</span><span>supplier@demo.dbsgroup.io · ${t('demoSupplierLK')}</span><span>ukshop@demo.dbsgroup.io · ${t('demoSupplierUK')}</span><span>buyer@demo.dbsgroup.io · ${t('demoBuyer')}</span><span>${t('password')}: ${process.env.DEMO_PASSWORD}</span></div>` : ''}</form></section>`;
 }
 function register(ctx, d) {
   const { t } = ctx;

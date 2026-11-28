@@ -85,11 +85,11 @@ function seedDemo(db) {
         .run(s.slug, s.name, s.name_ta, s.type, s.district, s.ships_from || 'Sri Lanka', s.about, s.about_ta, s.since, s.color, `hello@${s.slug}.example`, now).lastInsertRowid);
       for (const [zone, pence] of Object.entries(RATES[s.slug] || {})) db.prepare('INSERT INTO supplier_rates (supplier_id, zone, charge_pence) VALUES (?, ?, ?)').run(sid[s.slug], zone, pence);
     }
-    const uid = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('supplier@demo.kuviyam.org', 'Demo Supplier', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
+    const uid = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('supplier@demo.dbsgroup.io', 'Demo Supplier', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
     db.prepare('INSERT INTO supplier_members (supplier_id, user_id) VALUES (?, ?)').run(sid['nuwara-hills-tea'], uid);
-    const ukUid = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('ukshop@demo.kuviyam.org', 'Demo UK Shop', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
+    const ukUid = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('ukshop@demo.dbsgroup.io', 'Demo UK Shop', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
     db.prepare('INSERT INTO supplier_members (supplier_id, user_id) VALUES (?, ?)').run(sid['lanka-pantry-london'], ukUid);
-    const buyerId = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('buyer@demo.kuviyam.org', 'Demo Buyer (Toronto)', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
+    const buyerId = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('buyer@demo.dbsgroup.io', 'Demo Buyer (Toronto)', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
     const pid = [];
     for (const [slug, name, nameTa, cat, price, w, hs, unit, stock, sold, desc, descTa, mode, moq] of PRODUCTS) {
       const id = Number(db.prepare(`INSERT INTO products (supplier_id, name, name_ta, category, description, description_ta, price_pence, moq, mode, weight_g, hs_code, unit, stock, lead_days, status, sold, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'live', ?, ?)`)
@@ -128,8 +128,8 @@ function seedDemo(db) {
     const qid = Number(db.prepare(`INSERT INTO quotes (request_id, qty, goods_pence, shipping_pence, handling_pence, valid_until, note, status, created_at) VALUES (?, 200, 110000, 18500, 2500, ?, 'Includes your own label. Air freight by DHL, about 10 days.', 'offered', ?)`).run(rid, until, now).lastInsertRowid);
     msg.run(rid, 'system', uid, `quote|${qid}`, 'web', now);
     // A pending supplier application with sample documents.
-    const appUser = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('applicant@demo.kuviyam.org', 'Demo Applicant', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
-    const aid = Number(db.prepare(`INSERT INTO applications (user_id, name, name_ta, type, district, ships_from, br_no, contact, email, phone, categories, about, about_ta, status, created_at) VALUES (?, 'Mannar Dry Fish Traders', 'மன்னார் கருவாட்டு வணிகர்', 'Small business', 'Mannar', 'Sri Lanka', 'PV 00123456', 'Demo Applicant', 'applicant@demo.kuviyam.org', '+94 77 000 0000', 'Food', 'Sun-dried fish and prawns from Mannar island, packed for export.', 'மன்னார்த் தீவிலிருந்து வெயிலில் உலர்த்திய மீன், இறால்.', 'pending', ?)`).run(appUser, now).lastInsertRowid);
+    const appUser = Number(db.prepare(`INSERT INTO users (email, name, password_hash, role, created_at) VALUES ('applicant@demo.dbsgroup.io', 'Demo Applicant', ?, 'buyer', ?)`).run(hashPassword(pw), now).lastInsertRowid);
+    const aid = Number(db.prepare(`INSERT INTO applications (user_id, name, name_ta, type, district, ships_from, br_no, contact, email, phone, categories, about, about_ta, status, created_at) VALUES (?, 'Mannar Dry Fish Traders', 'மன்னார் கருவாட்டு வணிகர்', 'Small business', 'Mannar', 'Sri Lanka', 'PV 00123456', 'Demo Applicant', 'applicant@demo.dbsgroup.io', '+94 77 000 0000', 'Food', 'Sun-dried fish and prawns from Mannar island, packed for export.', 'மன்னார்த் தீவிலிருந்து வெயிலில் உலர்த்திய மீன், இறால்.', 'pending', ?)`).run(appUser, now).lastInsertRowid);
     for (const [label, fname] of [['br', 'business-registration.pdf'], ['id', 'nic.pdf'], ['bank', 'bank-letter.pdf']]) { const pdf = samplePdf(fname); fileIns.run('application', aid, label, fname, pdf.length, pdf, now); }
     db.exec('COMMIT');
   } catch (e) { db.exec('ROLLBACK'); throw e; }

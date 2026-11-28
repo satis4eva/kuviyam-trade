@@ -2,7 +2,7 @@
   "name": "kuviyam-trade",
   "version": "0.1.0",
   "private": true,
-  "description": "Kuviyam Trade: a bilingual (Tamil/English) marketplace for Sri Lankan suppliers selling to UK buyers.",
+  "description": "Trade Hub: a bilingual (Tamil/English) marketplace for Sri Lankan suppliers selling to UK buyers.",
   "main": "server.js",
   "engines": { "node": ">=22.5" },
   "scripts": {

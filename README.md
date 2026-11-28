@@ -1,8 +1,8 @@
-# Kuviyam Trade
+# Trade Hub
 
 A bilingual (English / தமிழ்) marketplace where verified Sri Lankan suppliers sell to buyers in the UK.
 First release: retail (B2C), UK delivery with shipping, import duty and VAT shown up front.
-Separate from the Kuviyam charity platform; it reuses the same small engine.
+Separate from the CharityHub platform; it reuses the same small engine.
 
 ## What it does
 
@@ -37,7 +37,7 @@ npm test       # end-to-end smoke test on a temporary database
 | `PAYMENT_PROVIDER` | `test` for now. DPayments plugs in once the merchant account is ready. |
 | `SEED_DEMO=1` | Loads sample suppliers, products and orders on an empty database |
 | `DEMO_MODE=1` | Shows the staging banner and demo login, and blocks search engines |
-| `DEMO_PASSWORD` | Password for `supplier@demo.kuviyam.org` |
+| `DEMO_PASSWORD` | Password for `supplier@demo.dbsgroup.io` |
 | `RATE_LKR_PER_GBP` | Example exchange rate for payout display |
 | `SITE_URL` | Public address used in WhatsApp links, e.g. `https://trade.dbsgroup.io` |
 | `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_ID` | Meta WhatsApp Business Platform (Cloud API) access token and phone number ID |
